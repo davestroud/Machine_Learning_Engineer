@@ -42,6 +42,8 @@ def dict_to_example(data_dict, config):
     features = tf.train.Features(feature=feature_dict)
     return tf.train.Example(features=features)
 
+# TF Records
+
 # Serialization ~ convert to byte string which can be written
 # to a file
 ex = tf.train.Example(features=tf.train.Features(feature=f_dict))
@@ -55,3 +57,15 @@ print(ser_ex)
 writer = tf.python_io.TFRecordWriter('out.tfrecords')
 writer.write(ser_ex)
 writer.close()
+
+# Features
+name = tf.FixedLenFeature((), tf.string)
+jobs = tf.VarLenFeature(tf.string)
+salary = tf.FixedLenFeature(2, tf.int64, default_value=0)
+example_spec = {
+    'name': name,
+    'jobs': jobs,
+    'salary': salary
+}
+
+print(example_spec)
